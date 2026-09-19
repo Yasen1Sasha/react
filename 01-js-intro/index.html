@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ES6+ · Картка Студента</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Unbounded:wght@400;700;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="grid-bg"></div>
+
+  <main class="app">
+
+    <!-- Заголовок -->
+    <header class="app-header">
+      <span class="badge">ES6+ · Практика</span>
+      <h1>Профіль студента</h1>
+      <p class="subtitle">Натисніть кнопку — побачите всі концепції ES6+ у дії</p>
+    </header>
+
+    <!-- Блок даних студента — редаговані поля -->
+    <section class="input-panel">
+      <div class="input-row">
+        <label>Ім'я</label>
+        <input id="inp-first" type="text" value="Антон" placeholder="Ім'я">
+      </div>
+      <div class="input-row">
+        <label>Прізвище</label>
+        <input id="inp-last" type="text" value="Шевченко" placeholder="Прізвище">
+      </div>
+      <div class="input-row">
+        <label>Дисципліна</label>
+        <input id="inp-course" type="text" value="Сучасний JavaScript" placeholder="Дисципліна">
+      </div>
+      <div class="input-row">
+        <label>Бал <span id="score-out">75</span></label>
+        <input id="inp-score" type="range" min="0" max="100" value="75">
+      </div>
+      <div class="input-row">
+        <label>Тема картки</label>
+        <select id="inp-theme">
+          <option value="blue">Синя</option>
+          <option value="green">Зелена</option>
+          <option value="amber">Жовта</option>
+          <option value="red">Червона</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- Кнопка -->
+    <button id="generate-btn" class="btn-generate">
+      <span class="btn-text">Згенерувати картку</span>
+      <span class="btn-icon">→</span>
+    </button>
+
+    <!-- Контейнер картки -->
+    <div id="profile-container" class="profile-slot">
+      <p class="slot-hint">Картка з'явиться тут</p>
+    </div>
+
+    <section id="concepts-log" class="concepts-log" hidden>
+      <h3>Використання ES6+</h3>
+      <ul id="concepts-list"></ul>
+    </section>
+
+  </main>
+
+  <!-- Шаблон --
+    <div class="card">
+      <div class="card-accent" style="background: __ "></div>
+      <div class="card-body">
+        <div class="card-header">
+          <div class="avatar" style="color: __ ; border: 2px solid __ 40">
+            __
+          </div>
+          <div>
+            <div class="card-name"> __ __ </div>
+            <div class="card-course"> __ </div>
+          </div>
+        </div>
+
+        <div class="card-details">
+          <div>
+            <div class="detail-row">
+              <span class="detail-label">Бал</span>
+              <span class="detail-value" style="color: __ ">
+                __ / 100
+              </span>
+            </div>
+            <div class="score-bar-wrap" style="margin-top:6px">
+              <div class="score-bar" style="width: __ %; background: __ "></div>
+            </div>
+          </div>
+
+          <div class="detail-row">
+            <span class="detail-label">Оцінка</span>
+            <span class="detail-value"> __ </span>
+          </div>
+
+          <div class="detail-row">
+            <span class="detail-label">Статус</span>
+            <span class="status-badge __ ">
+              __
+            </span>
+          </div>
+
+          <div class="detail-row">
+            <span class="detail-label">Тема</span>
+            <span class="detail-value"> __ </span>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          Генерація № __
+        </div>
+      </div>
+    </div>  
+  -->
+
+  <script src="script.js"></script>
+</body>
+
+</html>

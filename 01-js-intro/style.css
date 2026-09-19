@@ -1,0 +1,379 @@
+/* =============================================
+   ЗМІННІ ТА БАЗОВІ СТИЛІ
+   ============================================= */
+:root {
+  --bg: #0d0d0f;
+  --surface: #17181c;
+  --surface2: #1f2026;
+  --border: rgba(255,255,255,0.08);
+  --text: #f0f0f0;
+  --text2: #9b9ba8;
+  --accent: #6c63ff;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-display: 'Unbounded', sans-serif;
+  --radius: 12px;
+  --radius-sm: 8px;
+
+  /* Теми картки */
+  --theme-blue:  #4da6ff;
+  --theme-green: #4dffb0;
+  --theme-amber: #ffd24d;
+  --theme-red:   #ff6b6b;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-mono);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Фоновий декор — сітка */
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* =============================================
+   LAYOUT
+   ============================================= */
+.app {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* =============================================
+   HEADER
+   ============================================= */
+.app-header { text-align: center; }
+
+.badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 5vw, 36px);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+
+.subtitle {
+  color: var(--text2);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* =============================================
+   ПАНЕЛЬ ВВОДУ
+   ============================================= */
+.input-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.input-row {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  align-items: center;
+  gap: 12px;
+}
+
+.input-row label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text2);
+}
+
+input[type="text"],
+select {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 8px 12px;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.2s;
+}
+input[type="text"]:focus,
+select:focus { border-color: var(--accent); }
+select { cursor: pointer; }
+select option { background: var(--surface2); }
+
+input[type="range"] {
+  width: 100%;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+/* =============================================
+   КНОПКА
+   ============================================= */
+.btn-generate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 16px 24px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+}
+.btn-generate:hover  { opacity: 0.88; }
+.btn-generate:active { transform: scale(0.98); }
+
+.btn-icon {
+  transition: transform 0.2s;
+  display: inline-block;
+}
+.btn-generate:hover .btn-icon { transform: translateX(4px); }
+
+/* =============================================
+   СЛОТ КАРТКИ
+   ============================================= */
+.profile-slot {
+  min-height: 120px;
+  display: flex;
+  flex-direction: column; /* ДОДАНО: щоб нові картки вишукувалися в колонку */
+  gap: 20px;             /* ДОДАНО: відступ між згенерованими картками */
+  align-items: center;
+  justify-content: center;
+}
+
+.slot-hint {
+  color: var(--text2);
+  font-size: 13px;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  width: 100%;
+  text-align: center;
+  padding: 40px 0;
+}
+
+/* =============================================
+   КАРТКА ПРОФІЛЮ
+   ============================================= */
+.card {
+  width: 100%;
+  background: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  animation: cardIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to   { opacity: 1; transform: none; }
+}
+
+.card-accent {
+  height: 5px;
+}
+
+.card-body {
+  padding: 24px;
+}
+
+/* Рядок аватар + ім'я */
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 900;
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.08);
+}
+
+.card-name {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.card-course {
+  font-size: 12px;
+  color: var(--text2);
+  margin-top: 4px;
+}
+
+/* Таблиця деталей */
+.card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+}
+
+.detail-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.detail-label {
+  color: var(--text2);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.detail-value { font-weight: 700; }
+
+/* Прогрес-бар балів */
+.score-bar-wrap {
+  margin-top: 4px;
+  background: var(--surface2);
+  border-radius: 4px;
+  height: 6px;
+  overflow: hidden;
+  width: 100%;
+}
+.score-bar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Статус-бейдж */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+.status-badge.pass {
+  background: rgba(77,255,176,0.15);
+  color: #4dffb0;
+}
+.status-badge.fail {
+  background: rgba(255,107,107,0.15);
+  color: #ff6b6b;
+}
+
+/* Лічильник оновлень */
+.card-footer {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text2);
+  text-align: right;
+}
+
+/* =============================================
+   ЛОГ КОНЦЕПЦІЙ
+   ============================================= */
+.concepts-log {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  animation: cardIn 0.4s ease both;
+}
+
+.concepts-log h3 {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text2);
+  margin-bottom: 14px;
+}
+
+#concepts-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#concepts-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  padding: 8px 12px;
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--accent);
+}
+
+#concepts-list li .concept-name {
+  color: var(--accent);
+  font-weight: 700;
+  white-space: nowrap;
+  min-width: 130px;
+}
+
+#concepts-list li .concept-desc {
+  color: var(--text2);
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 480px) {
+  .input-row { grid-template-columns: 90px 1fr; }
+  .card-header { flex-direction: column; align-items: flex-start; }
+}

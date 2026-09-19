@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Умовний рендеринг JS/React</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-wrapper">
+    <header>
+      <h1>Панель керування</h1>
+      <p>Користувачі системи</p>
+    </header>
+
+    <div class="controls">
+      <button onclick="loadUser(1)">Завантажити VIP-користувача</button>
+      <button onclick="loadUser(2)">Завантажити звичайного</button>
+      <button onclick="loadUser(3)">Користувач без даних</button>
+      <button onclick="simulateError()" class="btn-danger">Симуляція помилки</button>
+    </div>
+
+    <div id="root" class="dashboard-area">      
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+

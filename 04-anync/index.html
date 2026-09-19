@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Асинхронність</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app-container">
+        <header class="header">
+            <h1>Основи асинхронності</h1>
+            <p>Відкрийте консоль розробника (F12 -> Console)</p>
+        </header>
+
+        <main class="controls">
+            <h3>Потік подій</h3>
+
+            <button onclick="runStep1(111)">
+                Синхронний код (setTimeout)
+            </button>
+            
+            <button onclick="runStep2()">
+                Простий виклик (Приготування піци)
+            </button>
+
+            <button onclick="runStep3()">
+                Пекло викликів (Піраміда долі)
+            </button>
+
+            <h3>Проміси</h3>
+
+            <button onclick="runStep4()">
+                Створення "проміса" (успішний)
+            </button>
+
+            <button onclick="runStep5(20)">
+               Ланцюжок проміса .then()
+            </button>
+
+            <h3>Просунуті Promise</h3>
+            <button onclick="runStep6()">
+                Паралельність виконання промісів
+            </button>
+
+            <button onclick="runStep7()">
+                Мікро-задачі
+            </button>
+
+            <hr>
+            <h3>Async / Await</h3>
+            <button onclick="runStep8()">
+                Синтаксичний цукор - проміси
+            </button>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
