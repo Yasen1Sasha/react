@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Практикум з React: Умовний рендеринг та Списки</title>
+    <!-- Використовуємо Tailwind CSS через CDN для швидкого старту та стилізації сторінки -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Стилі суто для візуалізації очікуваного результату на цій сторінці */
+        .mockup-container { border: 1px dashed #cbd5e1; background: #f8fafc; }
+        .mockup-high { border-left: 4px solid #ef4444; background: #fee2e2; }
+        .mockup-low { border-left: 4px solid #3b82f6; background: #dbeafe; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased p-4 md:p-8">
+
+    <div class="max-w-4xl mx-auto space-y-8">
+        
+        <!-- Заголовок курсу -->
+        <header class="text-center pb-8 border-b border-slate-200">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-2">React практикум</h1>
+            <p class="text-lg text-slate-600">Тема: Умовний рендеринг та робота зі списками</p>
+        </header>
+
+        <!-- Вступ -->
+        <section class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+            <h2 class="text-xl font-semibold mb-3">👋 Практичне заняття!</h2>
+            <p class="mb-4">Ваше завдання — послідовно виконати всі кроки. Кожне наступне завдання доповнює попереднє.</p>
+            <p class="text-sm bg-blue-50 text-blue-800 p-3 rounded border border-blue-100">
+                <strong>Важливо:</strong> У самому низу цієї сторінки є стартовий CSS-код. Скопіюйте його у ваші файли стилів перед початком роботи, щоб не витрачати час на дизайн.
+            </p>
+        </section>
+
+        <!-- Завдання 1 -->
+        <section class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-bold">1</span>
+                <h2 class="text-2xl font-bold text-slate-800">Налаштування Роутингу (Головна сторінка)</h2>
+            </div>
+            
+            <div class="space-y-4">
+                <p><strong>Мета:</strong> Створити каркас додатку з використанням <code>react-router-dom</code>. Це наш перший, глобальний рівень умовного рендерингу.</p>
+                
+                <h3 class="font-semibold text-lg border-b pb-1">Кроки виконання:</h3>
+                <ol class="list-decimal list-inside space-y-2 ml-2 text-slate-700">
+                    <li>Створіть папку <code>pages</code> та порожні компоненти: <code>HomePage</code>, <code>RegistrationPage</code>, <code>TodoListPage</code>, та компонент <code>ProductFilter</code>.</li>
+                    <li>У <code>HomePage</code> створіть навігаційне меню з посиланнями (компонент <code>Link</code>) на майбутні 3 завдання.</li>
+                    <li>У головному файлі <code>App.jsx</code> налаштуйте <code>Router</code> та <code>Routes</code>.</li>
+                    <li>Пропишіть маршрути (<code>Route</code>) для головної сторінки (<code>"/"</code>) та інших створених компонентів.</li>
+                </ol>
+
+                <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                    <h4 class="font-semibold text-yellow-800 mb-1">💡 Підказка:</h4>
+                    <p class="text-sm text-yellow-900">Компонент <code>Routes</code> працює як великий <code>switch/case</code>. Він перевіряє поточний URL і рендерить лише той компонент, чий <code>path</code> співпадає. Не забудьте обгорнути все у <code>&lt;Router&gt;</code>!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Завдання 2 -->
+        <section class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-bold">2</span>
+                <h2 class="text-2xl font-bold text-slate-800">Динамічна Реєстрація (Оператор &&)</h2>
+            </div>
+            
+            <div class="space-y-4">
+                <p><strong>Мета:</strong> Створити форму, поля якої з'являються поступово залежно від введених користувачем даних.</p>
+                
+                <h3 class="font-semibold text-lg border-b pb-1">Кроки виконання:</h3>
+                <ol class="list-decimal list-inside space-y-2 ml-2 text-slate-700">
+                    <li>Створіть стани (state) для: імені, віку, email та окремий стан для видимості поля email (boolean).</li>
+                    <li>Створіть інпут для введення імені.</li>
+                    <li>Використайте логічне <strong>І (&&)</strong>: показуйте інпут для вводу віку <em>тільки якщо</em> ім'я не порожнє.</li>
+                    <li>Напишіть функцію обробки зміни віку. Якщо введений вік >= 18, змінюйте стан видимості email на <code>true</code>.</li>
+                    <li>Використайте умовний рендеринг, щоб показати поле email тільки якщо стан видимості <code>true</code>.</li>
+                    <li>Зробіть кнопку "Зареєструватися" неактивною (атрибут <code>disabled</code>), якщо: немає імені, АБО немає віку, АБО (поле email видиме, але сам email не введено).</li>
+                </ol>
+
+                <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                    <h4 class="font-semibold text-yellow-800 mb-1">💡 Підказки:</h4>
+                    <ul class="list-disc list-inside text-sm text-yellow-900 space-y-1">
+                        <li>Синтаксис умовного рендерингу: <code>{умова && &lt;МійКомпонент /&gt;}</code>.</li>
+                        <li>Значення з <code>e.target.value</code> завжди є рядком (string). Використовуйте <code>parseInt(значення, 10)</code> для перевірки віку на <code>>= 18</code>.</li>
+                        <li>В атрибут <code>disabled</code> можна передати логічний вираз з операторами <code>!</code> та <code>||</code>.</li>
+                    </ul>
+                </div>
+
+                <div class="mt-4 p-4 mockup-container rounded-lg">
+                    <h4 class="text-sm font-semibold text-slate-500 mb-3 uppercase tracking-wide">👀 Очікуваний результат форми</h4>
+                    <div class="bg-white p-4 border rounded shadow-sm max-w-sm">
+                        <label class="block text-sm font-medium mb-1">Ваше ім'я:</label>
+                        <input type="text" value="Іван" class="border p-2 rounded w-full mb-3 bg-slate-100" readonly>
+                        
+                        <label class="block text-sm font-medium mb-1">Ваш вік:</label>
+                        <input type="number" value="19" class="border p-2 rounded w-full mb-3 bg-slate-100" readonly>
+                        
+                        <label class="block text-sm font-medium mb-1">Ваш email (з'явився бо вік > 18):</label>
+                        <input type="email" placeholder="Введіть email" class="border border-blue-400 p-2 rounded w-full mb-4 bg-white" readonly>
+                        
+                        <button class="bg-blue-600 text-white px-4 py-2 rounded w-full opacity-50 cursor-not-allowed">Зареєструватися</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Завдання 3 -->
+        <section class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-bold">3</span>
+                <h2 class="text-2xl font-bold text-slate-800">Список справ (Рендеринг списків та Key)</h2>
+            </div>
+            
+            <div class="space-y-4">
+                <p><strong>Мета:</strong> Навчитися рендерити масиви даних, додавати нові елементи та безпечно сортувати/змінювати масив у стані React.</p>
+                
+                <h3 class="font-semibold text-lg border-b pb-1">Кроки виконання:</h3>
+                <ol class="list-decimal list-inside space-y-2 ml-2 text-slate-700">
+                    <li>Створіть поза компонентом початковий масив об'єктів <code>initialTodos</code> (кожен об'єкт має мати <code>id</code>, <code>text</code> та <code>priority: 'high' | 'low'</code>).</li>
+                    <li>Помістіть цей масив у стан (state) компонента.</li>
+                    <li>За допомогою методу <code>.map()</code> виведіть кожен об'єкт масиву у вигляді тегу <code>&lt;li&gt;</code>.</li>
+                    <li>Додайте форму (input + кнопка) для створення нового завдання. При натисканні створюйте новий об'єкт, генеруйте унікальний <code>id</code> і додавайте його до стану.</li>
+                    <li>Реалізуйте 3 кнопки керування списком: "Сортувати за пріоритетом", "Перевернути список", "Скинути (повернути initialTodos)".</li>
+                    <li>Задайте динамічні CSS-класи для елементів списку залежно від їхнього пріоритету (класи <code>high</code> та <code>low</code> є у стартовому CSS).</li>
+                </ol>
+
+                <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                    <h4 class="font-semibold text-yellow-800 mb-1">💡 Підказки:</h4>
+                    <ul class="list-disc list-inside text-sm text-yellow-900 space-y-1">
+                        <li><strong>Найголовніше правило:</strong> кожен елемент, який повертає <code>map</code>, ПОВИНЕН мати унікальний атрибут <code>key</code> (використовуйте <code>todo.id</code>).</li>
+                        <li>Для генерації унікального ID нового завдання зручно використовувати <code>Date.now()</code>.</li>
+                        <li><strong>Ніколи не мутуйте масив напряму!</strong> Методи <code>.sort()</code> та <code>.reverse()</code> змінюють оригінальний масив. Робіть копію перед зміною: <code>const copy = [...todos].sort(...)</code>, а потім передавайте копію в <code>setTodos</code>.</li>
+                    </ul>
+                </div>
+
+                <div class="mt-4 p-4 mockup-container rounded-lg">
+                    <h4 class="text-sm font-semibold text-slate-500 mb-3 uppercase tracking-wide">👀 Очікуваний результат списку</h4>
+                    <div class="bg-white p-4 border rounded shadow-sm max-w-md">
+                        <div class="flex gap-2 mb-4">
+                            <button class="text-xs bg-slate-200 px-2 py-1 rounded">Сортувати</button>
+                            <button class="text-xs bg-slate-200 px-2 py-1 rounded">Перевернути</button>
+                        </div>
+                        <ul class="space-y-2">
+                            <li class="mockup-high p-2 rounded">Вивчити React (High)</li>
+                            <li class="mockup-low p-2 rounded">Вигуляти собаку (Low)</li>
+                            <li class="mockup-high p-2 rounded">Зробити ДЗ (High)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Завдання 4 -->
+        <section class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-bold">4</span>
+                <h2 class="text-2xl font-bold text-slate-800">Фільтр товарів (Списки + Умови)</h2>
+            </div>
+            
+            <div class="space-y-4">
+                <p><strong>Мета:</strong> Об'єднати знання про масиви та умовний рендеринг. Навчитися фільтрувати дані перед рендерингом та умовно застосовувати стилі.</p>
+                
+                <h3 class="font-semibold text-lg border-b pb-1">Кроки виконання:</h3>
+                <ol class="list-decimal list-inside space-y-2 ml-2 text-slate-700">
+                    <li>Створіть масив товарів (поля: <code>id</code>, <code>name</code>, <code>price</code>, <code>inStock</code> (true/false)) та помістіть його в стан.</li>
+                    <li>Створіть boolean-стан <code>showOnlyInStock</code> (показувати лише ті, що в наявності).</li>
+                    <li>Створіть кнопку для перемикання цього стану. Текст кнопки має змінюватись динамічно: якщо стан true — текст "Показати все", якщо false — "Показати тільки в наявності".</li>
+                    <li>Перед ретурном (return) JSX напишіть логіку, яка створює новий масив <code>filteredProducts</code>. Якщо фільтр увімкнено, відфільтруйте масив, якщо ні — залиште повний. Рендеріть (через <code>.map()</code>) саме цей відфільтрований масив.</li>
+                    <li>Під час рендеру списку, якщо товару немає в наявності (<code>inStock === false</code>):
+                        <ul class="list-disc ml-6 mt-1 text-sm">
+                            <li>Зробіть текст сірим і перекресленим (використайте інлайн-стилі <code>style={{...}}</code> та тернарний оператор).</li>
+                            <li>Додайте поруч із назвою текст <code>(Немає в наявності)</code>, використовуючи логічне <code>&&</code>.</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                    <h4 class="font-semibold text-yellow-800 mb-1">💡 Підказки:</h4>
+                    <ul class="list-disc list-inside text-sm text-yellow-900 space-y-1">
+                        <li>Тернарний оператор ідеально підходить для тексту кнопки: <code>{умова ? 'Текст1' : 'Текст2'}</code>.</li>
+                        <li>Для інлайн-стилів в React використовуються об'єкти: <code>style={{ color: умова ? 'red' : 'black' }}</code>.</li>
+                        <li>Метод <code>.filter()</code> не змінює оригінальний масив, а повертає новий. Тому його безпечно використовувати безпосередньо перед <code>return</code>.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Стартові матеріали -->
+        <section class="bg-slate-800 text-slate-50 p-6 rounded-xl shadow-md mt-10">
+            <h2 class="text-xl font-bold mb-4 text-white flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+                Стартові CSS файли
+            </h2>
+            <p class="text-sm text-slate-300 mb-6">Створіть відповідні файли стилів поруч із вашими компонентами та скопіюйте в них цей код. Це забезпечить базовий вигляд сторінок.</p>
+            
+            <!-- App.css -->
+            <div class="mb-6">
+                <div class="bg-slate-700 text-slate-200 text-xs font-bold px-4 py-2 rounded-t-md inline-block border-b-2 border-green-400">
+                    src/App.css
+                </div>
+                <div class="bg-slate-900 p-4 rounded-b-md rounded-tr-md overflow-x-auto">
+<pre><code class="text-green-300 text-sm font-mono">/* Глобальні стилі контейнерів та навігації */
+.home-container, .page-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: sans-serif;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+h1, h2 { color: #333; margin-bottom: 20px; }
+
+/* Універсальні стилі кнопок */
+button, .nav-button {
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+button:hover, .nav-button:hover { background-color: #0056b3; }
+button:disabled { background-color: #ccc; cursor: not-allowed; }
+
+.home-link { margin-top: 30px; text-align: center; }
+.home-link a { color: #007bff; text-decoration: none; font-weight: bold; }
+.home-link a:hover { text-decoration: underline; }
+</code></pre>
+                </div>
+            </div>
+
+            <!-- RegistrationPage.css -->
+            <div class="mb-6">
+                <div class="bg-slate-700 text-slate-200 text-xs font-bold px-4 py-2 rounded-t-md inline-block border-b-2 border-green-400">
+                    src/pages/RegistrationPage.css
+                </div>
+                <div class="bg-slate-900 p-4 rounded-b-md rounded-tr-md overflow-x-auto">
+<pre><code class="text-green-300 text-sm font-mono">/* Стилі виключно для форми реєстрації */
+.form-group { margin-bottom: 15px; }
+
+.form-group label { 
+  display: block; 
+  margin-bottom: 5px; 
+  font-weight: bold; 
+}
+
+.form-group input { 
+  width: 100%; 
+  padding: 8px; 
+  border: 1px solid #ccc; 
+  border-radius: 4px; 
+  box-sizing: border-box;
+}
+</code></pre>
+                </div>
+            </div>
+
+            <!-- TodoListPage.css -->
+            <div class="mb-6">
+                <div class="bg-slate-700 text-slate-200 text-xs font-bold px-4 py-2 rounded-t-md inline-block border-b-2 border-green-400">
+                    src/pages/TodoListPage.css
+                </div>
+                <div class="bg-slate-900 p-4 rounded-b-md rounded-tr-md overflow-x-auto">
+<pre><code class="text-green-300 text-sm font-mono">/* Стилі для керування списком справ */
+.controls { 
+  margin-bottom: 20px; 
+  display: flex; 
+  gap: 10px; 
+  flex-wrap: wrap;
+}
+
+.add-todo-form { 
+  display: flex; 
+  gap: 10px; 
+  margin-bottom: 20px; 
+}
+
+.add-todo-form input { 
+  flex-grow: 1; 
+  padding: 8px; 
+  border: 1px solid #ccc; 
+  border-radius: 4px; 
+}
+
+/* Візуалізація списку та пріоритетів */
+ul { list-style-type: none; padding: 0; }
+
+li { 
+  padding: 12px; 
+  margin-bottom: 8px; 
+  border-radius: 4px; 
+  border-left: 5px solid #ccc; 
+  background-color: white; 
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+li.high { border-left-color: #e74c3c; background-color: #fdf2f0; } /* Високий пріоритет */
+li.low { border-left-color: #3498db; background-color: #f0f8fd; }  /* Низький пріоритет */
+</code></pre>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+</body>
+</html>

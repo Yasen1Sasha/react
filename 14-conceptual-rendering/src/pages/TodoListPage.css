@@ -1,0 +1,38 @@
+/* Стилі для керування списком справ */
+.controls { 
+  margin-bottom: 20px; 
+  display: flex; 
+  gap: 10px; 
+  flex-wrap: wrap;
+}
+
+.add-todo-form { 
+  display: flex; 
+  gap: 10px; 
+  margin-bottom: 20px; 
+}
+
+.add-todo-form input { 
+  flex-grow: 1; 
+  padding: 8px; 
+  border: 1px solid #ccc; 
+  border-radius: 4px; 
+}
+
+/* Візуалізація списку та пріоритетів */
+ul { list-style-type: none; padding: 0; }
+
+li { 
+  padding: 12px; 
+  margin-bottom: 8px; 
+  border-radius: 4px; 
+  border-left: 5px solid #ccc; 
+  background-color: white; 
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+li.high { border-left-color: #e74c3c; background-color: #fdf2f0; } /* Високий пріоритет */
+li.low { border-left-color: #3498db; background-color: #f0f8fd; }  /* Низький пріоритет */
