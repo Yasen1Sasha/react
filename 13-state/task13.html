@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Практика: Стани та Інтерактивність у React</title>
+    <!-- Використовуємо Tailwind CSS через CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased pb-20">
+
+    <div class="max-w-4xl mx-auto py-10 px-4">
+        
+        <header class="mb-12 text-center">
+            <h1 class="text-4xl font-extrabold text-slate-900 mb-4">Створення React-Дашборду</h1>
+            <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+                <code>useState</code>, обробників подій та рендерингу.
+            </p>
+        </header>
+
+        <main class="space-y-10">
+
+            <!-- Завдання 1 -->
+            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-indigo-600 px-6 py-5">
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <span class="bg-indigo-800 text-indigo-100 py-1 px-3 rounded-lg text-sm">Крок 1</span> 
+                        Віджет: Лічильник кліків (Числовий стан)
+                    </h2>
+                </div>
+                <div class="p-6 md:p-8">
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-3">Що потрібно зробити:</h3>
+                        <p class="mb-4 text-slate-700">Створюємо перший ізольований компонент. Його мета — навчитись працювати з найпростішим числовим станом.</p>
+                        <ol class="list-decimal ml-5 space-y-2 text-slate-700">
+                            <li>Створи файл <code>Counter.jsx</code> у папці <code>src/components/</code>.</li>
+                            <li>Всередині компонента <code>Counter</code> оголоси стан з назвою <code>count</code> та початковим значенням <code>0</code>.</li>
+                            <li>Створи функцію-обробник <code>handleClick</code>, яка буде викликати функцію-сетер і передавати їй поточне значення стану плюс один.</li>
+                            <li>У <code>return</code> поверни контейнер <code>&lt;div className="counter-container"&gt;</code>, в якому буде тег <code>&lt;p&gt;</code> з текстом "Ви натиснули {count} разів".</li>
+                            <li>Додай кнопку "Збільшити лічильник" і прив'яжи до неї обробник події кліку.</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="bg-blue-50/50 border-l-4 border-blue-500 p-5 mb-6">
+                        <h4 class="font-bold text-blue-900 mb-2">💡 Підказка:</h4>
+                        <p class="text-sm text-blue-800">
+                            Використовуй деструктуризацію масиву для створення стану: <code>const [назва, функціяЗміни] = useState(початковеЗначення)</code>. Подію на кнопку вішай через атрибут <code>onClick</code>.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-6">
+                        <h4 class="text-xs uppercase tracking-wider text-slate-500 font-bold mb-4">Очікуваний візуальний результат:</h4>
+                        <div class="p-4 border rounded bg-white w-64 text-center">
+                            <p class="mb-3 font-medium">Ви натиснули 0 разів</p>
+                            <button class="bg-slate-200 hover:bg-slate-300 px-4 py-2 rounded text-sm transition">Збільшити лічильник</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Завдання 2 -->
+            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-indigo-600 px-6 py-5">
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <span class="bg-indigo-800 text-indigo-100 py-1 px-3 rounded-lg text-sm">Крок 2</span> 
+                        Віджет: Зміна фону (Рядковий стан та інлайн-стилі)
+                    </h2>
+                </div>
+                <div class="p-6 md:p-8">
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-3">Що потрібно зробити:</h3>
+                        <p class="mb-4 text-slate-700">Продовжуємо наповнювати дашборд. Тепер стан буде зберігати не число, а рядок (код кольору), і цей стан керуватиме стилями.</p>
+                        <ol class="list-decimal ml-5 space-y-2 text-slate-700">
+                            <li>Створи файл <code>ColorChanger.jsx</code>.</li>
+                            <li>Оголоси стан <code>color</code> із початковим значенням <code>'#ffffff'</code> (білий колір).</li>
+                            <li>У функції <code>handleClick</code> згенеруй випадковий колір і передай його в сетер стану. (Формула генерації дається у підказці).</li>
+                            <li>У <code>return</code> поверни <code>&lt;div className="color-changer-container"&gt;</code>.</li>
+                            <li><strong>Головне:</strong> прив'яжи стан кольору до атрибута <code>style</code> цього <code>&lt;div&gt;</code>, щоб динамічно змінювати <code>backgroundColor</code>.</li>
+                            <li>Додай абзац із текстом "Колір фону змінюється при натисканні." та кнопку для зміни кольору.</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="bg-blue-50/50 border-l-4 border-blue-500 p-5 mb-6">
+                        <h4 class="font-bold text-blue-900 mb-2">💡 Підказка:</h4>
+                        <p class="text-sm text-blue-800 mb-2">
+                            Щоб згенерувати випадковий HEX-колір, збережи у змінну цей вираз:<br> 
+                            <code>'#' + Math.floor(Math.random() * 16777215).toString(16)</code>
+                        </p>
+                        <p class="text-sm text-blue-800">
+                            Пам'ятай, що інлайн-стилі в React пишуться як об'єкт: <code>style={{ CSS_Властивість: значенняЗіСтану }}</code>.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-6">
+                        <h4 class="text-xs uppercase tracking-wider text-slate-500 font-bold mb-4">Очікуваний візуальний результат:</h4>
+                        <div class="p-6 border rounded w-full" style="background-color: #fca5a5;">
+                            <p class="mb-3 text-slate-800 font-medium">Колір фону змінюється при натисканні.</p>
+                            <button class="bg-white border shadow-sm px-4 py-2 rounded text-sm transition">Змінити колір</button>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-2 italic">*Фон має змінюватися на випадковий при кожному кліці.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Завдання 3 -->
+            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-indigo-600 px-6 py-5">
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <span class="bg-indigo-800 text-indigo-100 py-1 px-3 rounded-lg text-sm">Крок 3</span> 
+                        Віджет: Світлофор (Умовна логіка переходів)
+                    </h2>
+                </div>
+                <div class="p-6 md:p-8">
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-3">Що потрібно зробити:</h3>
+                        <p class="mb-4 text-slate-700">Ускладнюємо логіку. Тепер зміна стану залежить від його <strong>попереднього</strong> значення (циклічний перехід). А стилі будуть застосовуватись за допомогою тернарних операторів.</p>
+                        <ol class="list-decimal ml-5 space-y-2 text-slate-700">
+                            <li>Створи <code>TrafficLight.jsx</code>. Стан <code>color</code> за замовчуванням має бути <code>'red'</code>.</li>
+                            <li>Напиши обробник <code>handleClick</code>, у якому через конструкцію <code>if / else if / else</code> реалізуй логіку: якщо червоний -> стає жовтим, якщо жовтий -> стає зеленим, інакше -> знову червоний.</li>
+                            <li>У розмітці (в контейнері <code>traffic-light-container</code>) створи три <code>&lt;div className="light"&gt;</code>.</li>
+                            <li>Задай кожному "ліхтарю" інлайн-стиль: якщо поточний стан співпадає з кольором ліхтаря — він має відповідний колір, інакше він стає <code>'gray'</code>.</li>
+                            <li>Додай кнопку "Переключити".</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="bg-blue-50/50 border-l-4 border-blue-500 p-5 mb-6">
+                        <h4 class="font-bold text-blue-900 mb-2">💡 Підказка:</h4>
+                        <p class="text-sm text-blue-800">
+                            Для стилізації використовуй тернарний оператор у стилях:<br>
+                            <code>style={{ backgroundColor: стан === 'red' ? 'red' : 'gray' }}</code><br>
+                            Зроби так для кожного з трьох кольорів (red, yellow, green).
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-6">
+                        <h4 class="text-xs uppercase tracking-wider text-slate-500 font-bold mb-4">Очікуваний візуальний результат:</h4>
+                        <div class="p-4 border rounded bg-slate-100 flex flex-col items-center gap-4 w-32">
+                            <!-- Імітація світлофора на CSS -->
+                            <div class="w-12 h-12 rounded-full bg-red-500 shadow-inner"></div>
+                            <div class="w-12 h-12 rounded-full bg-gray-400 opacity-50"></div>
+                            <div class="w-12 h-12 rounded-full bg-gray-400 opacity-50"></div>
+                            
+                            <button class="bg-slate-300 hover:bg-slate-400 px-3 py-1 mt-2 rounded text-sm transition">Переключити</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Завдання 4 -->
+            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-indigo-600 px-6 py-5">
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <span class="bg-indigo-800 text-indigo-100 py-1 px-3 rounded-lg text-sm">Крок 4</span> 
+                        Віджет: Тернарна кнопка (Булевий стан)
+                    </h2>
+                </div>
+                <div class="p-6 md:p-8">
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-3">Що потрібно зробити:</h3>
+                        <p class="mb-4 text-slate-700">Віджети часто мають всього два стани (Увімкнено/Вимкнено). Реалізуємо булевий перемикач.</p>
+                        <ol class="list-decimal ml-5 space-y-2 text-slate-700">
+                            <li>Створи <code>TernaryButton.jsx</code>.</li>
+                            <li>Оголоси булевий стан <code>isToggled</code> зі значенням <code>false</code>.</li>
+                            <li>У <code>handleClick</code> інвертуй стан (переводь у протилежне значення при кожному кліці).</li>
+                            <li>Відрендери заголовок "Завдання: Тернарна кнопка".</li>
+                            <li>Відрендери кнопку. Текст <strong>всередині кнопки</strong> має залежати від стану: "Кнопка увімкнена" або "Кнопка вимкнена".</li>
+                            <li>Нижче додай абзац, у якому жирним текстом (<code>&lt;strong&gt;</code>) динамічно виводиться "Увімкнено" або "Вимкнено".</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="bg-blue-50/50 border-l-4 border-blue-500 p-5 mb-6">
+                        <h4 class="font-bold text-blue-900 mb-2">💡 Підказка:</h4>
+                        <p class="text-sm text-blue-800">
+                            Інвертувати стан найпростіше за допомогою логічного "НІ" (знак оклику): <code>функціяСетер(!поточнийСтан)</code>.<br>
+                            Для зміни тексту використовуй фігурні дужки прямо в JSX: <code>{ умова ? 'текст 1' : 'текст 2' }</code>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Завдання 5 -->
+            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-indigo-600 px-6 py-5">
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <span class="bg-indigo-800 text-indigo-100 py-1 px-3 rounded-lg text-sm">Крок 5</span> 
+                        Віджет: Видалення зі списку (Масиви та імутабельність)
+                    </h2>
+                </div>
+                <div class="p-6 md:p-8">
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-3">Що потрібно зробити:</h3>
+                        <p class="mb-4 text-slate-700">Найскладніший віджет. Робота зі станом-масивом вимагає дотримання принципу незмінності (immutability).</p>
+                        <ol class="list-decimal ml-5 space-y-2 text-slate-700">
+                            <li>Створи <code>DeletableList.jsx</code>.</li>
+                            <li>Оголоси стан <code>items</code>, початкове значення — масив рядків: <code>['Яблуко', 'Банан', 'Виноград', 'Апельсин']</code>.</li>
+                            <li>Створи функцію <code>handleDelete</code>, яка <strong>приймає індекс</strong> (<code>indexToDelete</code>).</li>
+                            <li>У цій функції створи новий масив за допомогою методу <code>.filter()</code> (відфільтруй так, щоб індекс поточного елемента не дорівнював <code>indexToDelete</code>). Запиши новий масив у стан.</li>
+                            <li>Виведи масив у вигляді маркованого списку <code>&lt;ul&gt;</code>, використовуючи метод <code>.map()</code>.</li>
+                            <li>Кожен <code>&lt;li&gt;</code> повинен містити назву фрукта і кнопку "Видалити".</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="bg-blue-50/50 border-l-4 border-blue-500 p-5 mb-6">
+                        <h4 class="font-bold text-blue-900 mb-2">💡 Важливі підказки:</h4>
+                        <ul class="list-disc ml-5 text-sm text-blue-800 space-y-1">
+                            <li>ОБОВ'ЯЗКОВО додай атрибут <code>key={index}</code> до тега <code>&lt;li&gt;</code>.</li>
+                            <li>Оскільки функція видалення приймає аргумент, ти <strong>НЕ можеш</strong> написати просто <code>onClick={handleDelete(index)}</code> (бо вона викличеться відразу при рендері). Потрібно огорнути її в анонімну стрілкову функцію: <code>onClick={() =&gt; handleDelete(index)}</code>.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Завдання 6 -->
+            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-emerald-600 px-6 py-5">
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <span class="bg-emerald-800 text-emerald-100 py-1 px-3 rounded-lg text-sm">Фінал</span> 
+                        Збірка Дашборду (App.jsx)
+                    </h2>
+                </div>
+                <div class="p-6 md:p-8">
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-3">Що потрібно зробити:</h3>
+                        <p class="mb-4 text-slate-700">Ми створили всі необхідні цеглинки. Тепер зберемо їх в єдиному місці, щоб побачити, що <strong>стан кожного компонента ізольований</strong> і вони не заважають один одному.</p>
+                        <ol class="list-decimal ml-5 space-y-2 text-slate-700">
+                            <li>Відкрий головний файл <code>App.jsx</code>.</li>
+                            <li>Імпортуй туди всі створені компоненти: <code>Counter</code>, <code>ColorChanger</code>, <code>TrafficLight</code>, <code>TernaryButton</code>, <code>DeletableList</code>.</li>
+                            <li>У <code>return</code> компонента <code>App</code> виведи їх один за одним, огорнувши кожен у <code>&lt;div className="task-section"&gt;</code> та додавши відповідні заголовки <code>&lt;h2&gt;</code> (наприклад "Завдання 1: Лічильник кліків" тощо).</li>
+                            <li>Оскільки елементів кілька, не забудь огорнути весь вміст <code>return</code> у React-фрагмент <code>&lt;&gt; ... &lt;/&gt;</code>.</li>
+                        </ol>
+                    </div>
+
+                    <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-6">
+                        <h4 class="text-xs uppercase tracking-wider text-emerald-600 font-bold mb-4">Очікуваний фінальний результат:</h4>
+                        <p class="text-sm text-emerald-800">
+                            У тебе повинна вийти довга сторінка, поділена на секції. Натискання на Світлофор ніяк не впливатиме на Лічильник або зміну фону. Ти успішно застосував інкапсуляцію стану в React та написав код, ідентичний еталонному матеріалу! 🎉
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+        
+        <footer class="mt-12 text-center text-slate-500 text-sm border-t pt-6">
+            React Practice © Всі компоненти мають свої власні (локальні) стани.
+        </footer>
+    </div>
+
+</body>
+</html>
