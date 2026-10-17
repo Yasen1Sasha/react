@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Практичне заняття: Взаємодія компонентів у React</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Стилізація скроллбару для блоків з кодом */
+        pre::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
+        }
+        pre::-webkit-scrollbar-track {
+            background: #1f2937; 
+        }
+        pre::-webkit-scrollbar-thumb {
+            background: #4b5563; 
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans antialiased pb-20">
+
+    <!-- Header -->
+    <header class="bg-blue-600 text-white shadow-md py-6 px-4 mb-8">
+        <div class="max-w-5xl mx-auto">
+            <h1 class="text-3xl font-bold">Тема: Взаємодія компонентів. Передача даних</h1>
+            <p class="mt-2 text-blue-100 text-lg">Практичне заняття з React. Створюємо додаток "Бібліотека героїв і книг".</p>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 space-y-8">
+
+        <!-- Вступне слово викладача -->
+        <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-blue-500">
+            <h2 class="text-xl font-bold mb-2">👋 React!</h2>
+            <p class="mb-4">Сьогодні ми на практиці закріпимо те, як компоненти спілкуються між собою. Наша мета — створити застосунок, де є списки супергероїв та книг, з можливістю додавати їх у "Обране" та фільтрувати.</p>
+            <p>Скопіюйте початкові дані та CSS-стилі з блоків нижче, і переходьте до виконання 5 кроків.</p>
+        </div>
+
+        <!-- Підготовчі матеріали -->
+        <section class="bg-white rounded-xl shadow-sm p-6">
+            <h2 class="text-2xl font-bold mb-4 flex items-center text-gray-800">
+                <span class="bg-gray-200 text-gray-600 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">0</span>
+                Підготовка: Дані та Стилі
+            </h2>
+            <div class="space-y-6">
+                
+                <div>
+                    <h3 class="font-semibold text-lg mb-2">1. Стилі проекту (скопіюйте у `src/styles.css`)</h3>
+                    <pre class="bg-gray-800 text-green-400 p-4 rounded-lg overflow-x-auto text-sm"><code>* { box-sizing: border-box; }
+:root { --bg: #0e0e11; --panel: #17171c; --border: #2a2a33; --text: #f3f3f5; --muted: #a8a8b8; }
+body { margin: 0; font-family: system-ui, Arial, sans-serif; background: var(--bg); color: var(--text); }
+.container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+h1, h2 { margin: 0 0 16px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+.card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 12px; box-shadow: 0 1px 0 rgba(0,0,0,.2); }
+.cover { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; background: #222; }
+.row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.button { border: 1px solid var(--border); background: #202028; color: #fff; padding: 8px 12px; border-radius: 10px; cursor: pointer; }
+.button:disabled { opacity: .6; cursor: not-allowed; }
+.button.ghost { background: transparent; }
+.tag { display: inline-block; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); font-size: 12px; }
+.list { margin: 8px 0 0; padding-left: 20px; }
+.muted { color: var(--muted); }
+.toolbar { display: flex; gap: 8px; align-items: center; margin: 12px 0 16px; flex-wrap: wrap; }
+.badge { display: inline-flex; items-center; gap: 6px; padding: 4px 8px; border: 1px solid var(--border); border-radius: 999px; }
+.search { padding: 8px 10px; border-radius: 10px; border: 1px solid var(--border); background: #131318; color: var(--text); }
+.high { border-left: 4px solid #5aa2ff; padding-left: 8px; }
+.normal { border-left: 4px solid #4caf50; padding-left: 8px; }
+.remove { background: #2a1c1c; border-color: #5b2b2b; }
+.filter-on { outline: 2px solid #5aa2ff; }
+section { margin-bottom: 32px; }
+.card h3 { margin: 12px 0 8px; }
+.search { max-width: 100%; min-width: 0; }</code></pre>
+                </div>
+
+                <div>
+                    <h3 class="font-semibold text-lg mb-2">2. Початкові стани для `App.jsx`</h3>
+                    <pre class="bg-gray-800 text-blue-300 p-4 rounded-lg overflow-x-auto text-sm"><code>const [heroes] = useState([
+  { id: 1, name: 'Batman', power: 'Detective', image: 'https://picsum.photos/seed/bat/600/400', level: 90, skills:['detective','martial arts'], info:{city:'Gotham'} },
+  { id: 2, name: 'Superman', power: 'Strength',  image: 'https://picsum.photos/seed/sup/600/400', level: 98, skills:['flying','laser eyes'], info:{city:'Metropolis'} },
+  { id: 3, name: 'Wonder Woman', power: 'Agility', image: 'https://picsum.photos/seed/ww/600/400', level: 92, skills:['agility','lasso'], info:{city:'Themyscira'} }
+]);
+
+const [books] = useState([
+  { id: 101, title: 'The Long Halloween', author: 'Jeph Loeb', image: 'https://picsum.photos/seed/b1/600/400' },
+  { id: 102, title: 'All-Star Superman', author: 'Grant Morrison', image: 'https://picsum.photos/seed/b2/600/400' },
+  { id: 103, title: 'Wonder Woman: Year One', author: 'G. Rucka', image: 'https://picsum.photos/seed/b3/600/400' }
+]);
+
+const [favorites, setFavorites] = useState([]);
+const [filter, setFilter] = useState('all');
+const [query, setQuery] = useState('');</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Завдання 1 -->
+        <section class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+            <div class="bg-blue-50 px-6 py-4 border-b border-gray-200">
+                <h2 class="text-xl font-bold text-blue-800">Крок 1. Базові пропси. Рендер списку книг</h2>
+            </div>
+            <div class="p-6">
+                <p class="mb-4 text-gray-700"><strong>Завдання:</strong> Створити компонент <code>BookCard</code> та вивести список книг у головному компоненті <code>App</code>.</p>
+                <ul class="list-disc pl-6 space-y-2 mb-6 text-gray-700">
+                    <li>Створи файл <code>BookCard.jsx</code>. Він має приймати такі пропси: <code>title</code>, <code>author</code>, <code>image</code>.</li>
+                    <li>Зверстай картку книги, використовуючи надані CSS-класи (<code>card</code>, <code>cover</code>, <code>muted</code>).</li>
+                    <li>У файлі <code>App.jsx</code> використай метод масиву <code>.map()</code>, щоб перебрати масив <code>books</code> та відрендерити <code>BookCard</code> для кожної книги.</li>
+                </ul>
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded text-sm text-yellow-900">
+                    <strong class="block mb-1">🧠 Хвилинка теорії (Пропси):</strong>
+                    Пропси (props) — це як аргументи для функцій, але для React-компонентів. Вони дозволяють передавати дані з батьківського компонента в дочірній. 
+                    <br><br>
+                    <strong>💡 Підказка:</strong> В `App.jsx` виклик компонента виглядатиме приблизно так:<br>
+                    <code class="bg-yellow-100 px-1 py-0.5 rounded text-red-600">&lt;BookCard key={b.id} title={b.title} author={b.author} image={b.image} /&gt;</code>. Не забувай про обов'язковий проп <code>key</code> при використанні <code>map</code>!
+                </div>
+            </div>
+        </section>
+
+        <!-- Завдання 2 -->
+        <section class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+            <div class="bg-blue-50 px-6 py-4 border-b border-gray-200">
+                <h2 class="text-xl font-bold text-blue-800">Крок 2. Складні пропси та children. Картка Героя</h2>
+            </div>
+            <div class="p-6">
+                <p class="mb-4 text-gray-700"><strong>Завдання:</strong> Створити компонент <code>HeroCard</code> для відображення складніших даних (масивів, об'єктів) та використання спеціального пропса <code>children</code>.</p>
+                <ul class="list-disc pl-6 space-y-2 mb-6 text-gray-700">
+                    <li>Створи <code>HeroCard.jsx</code>. Він прийматиме: <code>name</code>, <code>power</code>, <code>level</code>, <code>image</code>, <code>skills</code> (масив), <code>info</code> (об'єкт).</li>
+                    <li>Додай динамічний клас для картки: якщо <code>level</code> &gt;= 95, додай клас <code>high</code>, інакше — <code>normal</code>.</li>
+                    <li>Відрендери масив <code>skills</code> (якщо він є) у вигляді тегів (клас <code>tag</code>), використовуючи <code>.map()</code> всередині картки.</li>
+                    <li>Прийми пропс <code>children</code> та виведи його десь у картці. В <code>App.jsx</code> передай всередину <code>&lt;HeroCard&gt;</code> тег <code>&lt;span class="tag"&gt;Комікс&lt;/span&gt;</code>.</li>
+                </ul>
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded text-sm text-yellow-900">
+                    <strong class="block mb-1">🧠 Хвилинка теорії (Children та типи даних):</strong>
+                    Пропсами можна передавати не лише рядки, а й масиви та об'єкти. Головне — правильно їх розпакувати в дочірньому компоненті. <br>
+                    <code>children</code> — це зарезервований пропс у React, який містить все, що знаходиться між відкриваючим і закриваючим тегом вашого компонента.
+                </div>
+            </div>
+        </section>
+
+        <!-- Завдання 3 -->
+        <section class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+            <div class="bg-blue-50 px-6 py-4 border-b border-gray-200">
+                <h2 class="text-xl font-bold text-blue-800">Крок 3. Передача функцій (Колбеки)</h2>
+            </div>
+            <div class="p-6">
+                <p class="mb-4 text-gray-700"><strong>Завдання:</strong> Навчити картки реагувати на кліки та передавати інформацію про подію "вгору" до <code>App</code>.</p>
+                <ul class="list-disc pl-6 space-y-2 mb-6 text-gray-700">
+                    <li>В <code>App.jsx</code> створи функцію <code>sayHello(name)</code>, яка викликає <code>alert(`Привіт, я ${name}!`)</code>.</li>
+                    <li>Передай цю функцію у <code>HeroCard</code> як пропс <code>onHello</code>. (Подумай, як передати функцію так, щоб вона знала ім'я конкретного героя).</li>
+                    <li>У <code>HeroCard</code> додай кнопку "Привітатися". На подію <code>onClick</code> повісь виклик пропса <code>onHello</code>.</li>
+                    <li>Аналогічно, в обох картках (Hero і Book) підготуй кнопку "Додати в обране" та пропс <code>onAdd</code>. (Саму логіку додавання напишемо в наступному кроці).</li>
+                </ul>
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded text-sm text-yellow-900">
+                    <strong class="block mb-1">🧠 Хвилинка теорії (Зворотний зв'язок):</strong>
+                    Дочірні компоненти не можуть напряму змінювати стан батька (однонаправлений потік даних). Але батько може передати свою функцію (колбек) дитині через пропси. Коли дитина викликає цю функцію, код виконується в контексті батька.
+                </div>
+            </div>
+        </section>
+
+        <!-- Завдання 4 -->
+        <section class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+            <div class="bg-blue-50 px-6 py-4 border-b border-gray-200">
+                <h2 class="text-xl font-bold text-blue-800">Крок 4. Підняття стану (Lifting State Up)</h2>
+            </div>
+            <div class="p-6">
+                <p class="mb-4 text-gray-700"><strong>Завдання:</strong> Змусити працювати кнопки "Додати в обране" і створити компонент для відображення списку обраного.</p>
+                <ul class="list-disc pl-6 space-y-2 mb-6 text-gray-700">
+                    <li>В <code>App.jsx</code> реалізуй функції <code>addHeroToFavorites(hero)</code> та <code>addBookToFavorites(book)</code>. Вони мають оновлювати стан <code>favorites</code>. Формат об'єкта в масиві: <code>{ type: 'Hero', id: 1, label: 'Batman' }</code>. Не забувай перевіряти, чи елемент вже є в списку, щоб уникнути дублікатів!</li>
+                    <li>Створи компонент <code>FavoritesList.jsx</code>. Передай йому масив <code>favorites</code> через пропс <code>items</code>.</li>
+                    <li>У <code>FavoritesList</code> виведи список <code>&lt;li&gt;</code> з назвами обраних елементів. Якщо масив порожній — покажи повідомлення "Поки що порожньо".</li>
+                    <li>Додай до кожного елемента списку в <code>FavoritesList</code> кнопку видалення (✖) та реалізуй логіку видалення через колбек <code>onRemove</code>, який змінюватиме стан в <code>App</code>.</li>
+                </ul>
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded text-sm text-yellow-900">
+                    <strong class="block mb-1">🧠 Хвилинка теорії (Lifting State):</strong>
+                    Коли кілька компонентів (наприклад, Картки і Список Обраного) потребують доступу до одних і тих самих даних, стан слід "підняти" до їхнього найближчого спільного предка (у нашому випадку це <code>App</code>).
+                </div>
+            </div>
+        </section>
+
+        <!-- Завдання 5 -->
+        <section class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+            <div class="bg-blue-50 px-6 py-4 border-b border-gray-200">
+                <h2 class="text-xl font-bold text-blue-800">Крок 5. Фільтрація та обчислювальний стан</h2>
+            </div>
+            <div class="p-6">
+                <p class="mb-4 text-gray-700"><strong>Завдання:</strong> Створити панель фільтрів та навчитися обчислювати дані на основі існуючого стану без створення зайвих змінних.</p>
+                <ul class="list-disc pl-6 space-y-2 mb-6 text-gray-700">
+                    <li>Створи компонент <code>FilterBar.jsx</code>. Він повинен містити кнопки ("Усі", "Лише Герої", "Лише Книги"), поле пошуку (<code>input type="search"</code>) та бейджі з лічильниками.</li>
+                    <li>Передай у <code>FilterBar</code> необхідні пропси з <code>App</code>: стани <code>filter</code> і <code>query</code>, їхні сеттери (<code>setFilter</code>, <code>setQuery</code>), а також значення лічильників.</li>
+                    <li><strong>Важливо:</strong> Не створюй нові <code>useState</code> для лічильників! В <code>App.jsx</code> обчисли <code>heroCount</code> та <code>bookCount</code> безпосередньо з масиву <code>favorites</code> (використай метод <code>.filter().length</code>).</li>
+                    <li>В <code>App.jsx</code> створи змінну <code>filteredFavorites</code>, яка фільтрує оригінальний масив <code>favorites</code> залежно від значення <code>filter</code> та текстового пошуку <code>query</code>. Передай саме цей відфільтрований масив у <code>FavoritesList</code>.</li>
+                </ul>
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded text-sm text-yellow-900">
+                    <strong class="block mb-1">🧠 Хвилинка теорії (Derived State):</strong>
+                    Уникайте створення зайвих станів. Якщо якісь дані (наприклад, кількість обраних книг або відфільтрований список) можна математично вирахувати з уже існуючого стану під час рендеру — просто робіть це. Це робить код надійнішим. Для складних обчислень можна використовувати хук <code>useMemo</code>.
+                </div>
+            </div>
+        </section>
+
+        <div class="text-center text-gray-500 mt-8">
+            <p>Успіхів у написанні коду! Пам'ятайте: помилки в консолі — це ваші друзі, які вказують шлях до правильного рішення.</p>
+        </div>
+
+    </main>
+
+</body>
+</html>

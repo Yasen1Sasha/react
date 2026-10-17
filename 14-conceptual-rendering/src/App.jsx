@@ -1,5 +1,5 @@
 import React from 'react'
-import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom'
+import {BrowserRouter as Router, Routes, Route, Link, BrowserRouter} from 'react-router-dom'
 import './App.css'
 import RegistrationPage from './pages/RegistrationPage'
 import TodoListPage from './pages/TodoListPage'
@@ -21,7 +21,7 @@ function App() {
   return (    
     <div>
       <h1>Мій додаток</h1>
-      
+      <BrowserRouter>
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -29,7 +29,7 @@ function App() {
           <Route path="/todos" element={<TodoListPage />} /> 
         </Routes>
       </Router>
-      
+      </BrowserRouter>
     </div>
   )
 }
