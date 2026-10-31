@@ -14,7 +14,7 @@ h1, h2 { margin: 0 0 16px; }
 .list { margin: 8px 0 0; padding-left: 20px; }
 .muted { color: var(--muted); }
 .toolbar { display: flex; gap: 8px; align-items: center; margin: 12px 0 16px; flex-wrap: wrap; }
-.badge { display: inline-flex; align-items:center; gap: 6px; padding: 4px 8px; border: 1px solid var(--border); border-radius: 999px; }
+.badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border: 1px solid var(--border); border-radius: 999px; }
 .search { padding: 8px 10px; border-radius: 10px; border: 1px solid var(--border); background: #131318; color: var(--text); }
 .high { border-left: 4px solid #5aa2ff; padding-left: 8px; }
 .normal { border-left: 4px solid #4caf50; padding-left: 8px; }
