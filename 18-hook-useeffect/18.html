@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Практичне заняття: Хук useEffect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased line-height-relaxed">
+
+    <header class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-lg py-10 mb-10">
+        <div class="max-w-5xl mx-auto px-6">
+            <h1 class="text-4xl font-extrabold mb-2">Урок: Хук useEffect</h1>
+            <p class="text-xl text-blue-100">Реагуємо на зміни: завантаження даних, оновлення сторінки, запуск анімації</p>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-6 space-y-12 pb-20">
+        <!-- Теорія та Приклади -->
+        <section class="space-y-8">        
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                <p class="mb-4 text-gray-700"><code class="bg-gray-100 px-1 py-0.5 rounded text-pink-600 font-semibold">useEffect</code> — це хук, який дозволяє виконувати побічні ефекти в функціональних компонентах (дії, що не пов'язані напряму з рендерингом UI).</p>
+                <ul class="list-disc pl-5 mb-4 text-gray-700 space-y-1">
+                    <li>Оновлення заголовка сторінки (<code class="bg-gray-100 px-1 rounded text-sm text-gray-600">document.title</code>).</li>
+                    <li>Підписка на події (слухачі подій вікна).</li>
+                    <li>Запуск таймерів, анімацій або завантаження даних (fetch).</li>
+                </ul>
+                <div class="bg-gray-800 rounded-lg p-4 overflow-x-auto text-sm text-blue-300">
+<pre><code>useEffect(() =&gt; {
+  <span class="text-green-400">// Код, який виконується після рендеру</span>
+  console.log('Компонент змонтовано або оновлено!');
+
+  <span class="text-green-400">// Функція очищення (опціонально)</span>
+  return () =&gt; {
+    console.log('Компонент розмонтовано або перед оновленням');
+  };
+}, <span class="text-yellow-300">[/* масив залежностей */]</span>);</code></pre>
+                </div>
+            </div>
+
+            <!-- Приклади -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <div class="bg-blue-50 p-6 rounded-xl border border-blue-100">
+                    <h3 class="font-bold text-lg text-blue-900 mb-2">Приклад 1: Зміна заголовка</h3>
+                    <p class="text-sm text-blue-800 mb-3">Ефект змінює заголовок сторінки щоразу, коли змінюється <code class="bg-blue-200 px-1 rounded">count</code>.</p>
+                    <div class="bg-gray-800 rounded-lg p-3 overflow-x-auto text-xs text-gray-100">
+<pre><code>useEffect(() =&gt; {
+  document.title = `Ви клацнули ${count} разів`;
+}, [count]); <span class="text-green-400">// Залежить від count</span></code></pre>
+                    </div>
+                </div>
+
+                <div class="bg-green-50 p-6 rounded-xl border border-green-100">
+                    <h3 class="font-bold text-lg text-green-900 mb-2">Приклад 2: Таймер</h3>
+                    <p class="text-sm text-green-800 mb-3">Функція очищення <code class="bg-green-200 px-1 rounded">clearInterval</code> запобігає витокам пам'яті.</p>
+                    <div class="bg-gray-800 rounded-lg p-3 overflow-x-auto text-xs text-gray-100">
+<pre><code>useEffect(() =&gt; {
+  const timer = setInterval(() =&gt; {
+    setCount(prev =&gt; prev + 1);
+  }, 1000);
+  return () =&gt; clearInterval(timer);
+}, []); <span class="text-green-400">// Виконається один раз</span></code></pre>
+                    </div>
+                </div>
+
+                <div class="bg-purple-50 p-6 rounded-xl border border-purple-100">
+                    <h3 class="font-bold text-lg text-purple-900 mb-2">Приклад 3: Робота з API (Fetch)</h3>
+                    <p class="text-sm text-purple-800 mb-3">Завантаження даних та скасування запиту при розмонтуванні.</p>
+                    <div class="bg-gray-800 rounded-lg p-3 overflow-x-auto text-xs text-gray-100">
+<pre><code>useEffect(() =&gt; {
+  const controller = new AbortController();
+  const fetchData = async () =&gt; {
+    const res = await fetch(url, { signal: controller.signal });
+    // обробка даних...
+  };
+  fetchData();
+  return () =&gt; controller.abort();
+}, []);</code></pre>
+                    </div>
+                </div>
+
+                <div class="bg-yellow-50 p-6 rounded-xl border border-yellow-100">
+                    <h3 class="font-bold text-lg text-yellow-900 mb-2">Приклад 4: LocalStorage</h3>
+                    <p class="text-sm text-yellow-800 mb-3">Синхронізація стану React з пам'яттю браузера.</p>
+                    <div class="bg-gray-800 rounded-lg p-3 overflow-x-auto text-xs text-gray-100">
+<pre><code>useEffect(() =&gt; {
+  localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+}, [isDarkMode]);</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Вихідні дані -->
+        <section class="space-y-6">
+            <h2 class="text-3xl font-bold text-gray-900 border-b-2 border-indigo-100 pb-3">Вихідні дані</h2>
+            <p class="text-gray-600">Для початку роботи скопіюйте ці базові файли у ваш проект. Вони містять глобальні стилі та базову структуру додатку.</p>
+
+            <details class="group bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden cursor-pointer">
+                <summary class="bg-gray-100 px-6 py-4 font-semibold text-gray-700 flex justify-between items-center hover:bg-gray-200 transition-colors">
+                    Базові стилі (App.css та index.css)
+                    <svg class="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </summary>
+                <div class="p-6 bg-gray-800 text-gray-100 text-sm overflow-x-auto">
+<pre><code>/* ===== src/index.css ===== */
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  color-scheme: light dark;
+}
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+.body-dark { background: black; color: white; }
+
+/* ===== src/App.css ===== */
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+button {
+  border-radius: 8px;
+  padding: 0.6em 1.2em;
+  margin: 0.5em;
+  background-color: #1a1a1a;
+  color: white;
+  cursor: pointer;
+}
+button:hover { border-color: #646cff; }</code></pre>
+                </div>
+            </details>
+
+            <details class="group bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden cursor-pointer">
+                <summary class="bg-gray-100 px-6 py-4 font-semibold text-gray-700 flex justify-between items-center hover:bg-gray-200 transition-colors">
+                    Кореневий компонент (App.jsx)
+                    <svg class="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </summary>
+                <div class="p-6 bg-gray-800 text-gray-100 text-sm overflow-x-auto">
+<pre><code>import './App.css';
+import TimerControl from './components/TimerControl.jsx';
+import ThemeToggle from './components/ThemeToggle.jsx';
+import WindowResize from './components/WindowResize.jsx';
+import ColorFader from './components/ColorFader.jsx';
+
+function App() {
+  return (
+    &lt;&gt;
+      &lt;h1&gt;Урок: хук useEffect&lt;/h1&gt;
+      {/* По черзі розкоментовуйте компоненти для перевірки завдань */}
+      &lt;TimerControl /&gt;
+      {/* &lt;ThemeToggle /&gt; */}
+      {/* &lt;WindowResize /&gt; */}
+      {/* &lt;ColorFader /&gt; */}
+    &lt;/&gt;
+  );
+}
+export default App;</code></pre>
+                </div>
+            </details>
+        </section>
+
+        <!-- Практичні Завдання -->
+        <section class="space-y-8 pt-6">
+            <h2 class="text-3xl font-bold text-gray-900 border-b-2 border-indigo-100 pb-3">Практичні завдання</h2>
+
+            <!-- Завдання 1 -->
+            <article class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-2xl font-bold text-gray-800">Завдання 1: Розширений таймер з контролем</h3>
+                        <span class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Базовий</span>
+                    </div>
+                    
+                    <div class="mb-5 p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+                        <p class="text-sm text-blue-900"><strong class="font-bold">Чому це важливо:</strong> Керування інтервалами на основі стану — це базовий патерн. Якщо таймер не очищати, він продовжить працювати у фоні, викликаючи витоки пам'яті (memory leaks) та непередбачувану поведінку додатку.</p>
+                    </div>
+
+                    <div class="mb-5">
+                        <h4 class="font-bold text-gray-800 mb-2">Покрокова інструкція:</h4>
+                        <ol class="list-decimal pl-5 space-y-2 text-gray-700">
+                            <li>Створіть файл <code class="bg-gray-100 px-1 rounded">TimerControl.jsx</code>.</li>
+                            <li>Використайте базовий код, наведений нижче. Вам потрібно написати логіку всередині <code class="bg-gray-100 px-1 rounded">useEffect</code>.</li>
+                            <li>Налаштуйте <code class="bg-gray-100 px-1 rounded">setInterval</code>, який збільшує стейт <code class="bg-gray-100 px-1 rounded">count</code> на 1 кожну секунду, <strong>але тільки якщо</strong> стейт <code class="bg-gray-100 px-1 rounded">isRunning</code> дорівнює <code class="bg-gray-100 px-1 rounded">true</code>.</li>
+                            <li>Поверніть функцію очищення (cleanup function), яка викликає <code class="bg-gray-100 px-1 rounded">clearInterval</code>.</li>
+                            <li>Додайте масив залежностей до <code class="bg-gray-100 px-1 rounded">useEffect</code> так, щоб він реагував на зміну <code class="bg-gray-100 px-1 rounded">isRunning</code>.</li>
+                        </ol>
+                    </div>
+
+                    <div class="mb-5 bg-yellow-50 border-l-4 border-yellow-400 p-4 text-sm text-yellow-800 rounded-r-lg">
+                        <strong>💡 Підказка:</strong> У функції очищення перевіряйте, чи створено таймер, перед тим як викликати <code class="font-mono">clearInterval(timer)</code>.
+                    </div>
+
+                    <div class="mb-5">
+                        <h4 class="font-bold text-gray-800 mb-2">Вихідний код компонента:</h4>
+                        <div class="bg-gray-800 rounded-lg p-4 overflow-x-auto text-sm text-gray-100">
+<pre><code>import { useState, useEffect } from 'react';
+
+export default function TimerControl() {
+  const [count, setCount] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
+
+  useEffect(() =&gt; {
+    // ✍️ НАПИШІТЬ ВАШ КОД ТУТ
+    // 1. Перевірте, чи isRunning === true
+    // 2. Якщо так, створіть setInterval
+    // 3. Поверніть функцію для clearInterval
+  }, [/* вкажіть залежність */]);
+
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Лічильник: {count}&lt;/h2&gt;
+      &lt;button onClick={() =&gt; setIsRunning(!isRunning)}&gt;
+        {isRunning ? 'Зупинити' : 'Запустити'}
+      &lt;/button&gt;
+      &lt;button onClick={() =&gt; setCount(0)}&gt;Скинути&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <h4 class="font-bold text-gray-800 mb-1">👀 Візуальний результат:</h4>
+                        <p class="text-sm text-gray-600">На екрані відображається число (лічильник) та дві кнопки. При натисканні на "Запустити" число починає зростати кожну секунду. Напис на кнопці змінюється на "Зупинити". При натисканні на "Зупинити" відлік припиняється. Кнопка "Скинути" обнуляє лічильник.</p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Завдання 2 -->
+            <article class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-2xl font-bold text-gray-800">Завдання 2: Зміна стилів на основі стану</h3>
+                        <span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Середній</span>
+                    </div>
+                    
+                    <div class="mb-5 p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+                        <p class="text-sm text-blue-900"><strong class="font-bold">Чому це важливо:</strong> React керує елементами всередині свого кореневого вузла. Щоб вплинути на елементи поза ним (наприклад, тег <code class="bg-blue-100 px-1 rounded">&lt;body&gt;</code>), ми використовуємо <code class="bg-blue-100 px-1 rounded">useEffect</code> як безпечний спосіб взаємодії зі звичайним DOM API браузера.</p>
+                    </div>
+
+                    <div class="mb-5">
+                        <h4 class="font-bold text-gray-800 mb-2">Покрокова інструкція:</h4>
+                        <ol class="list-decimal pl-5 space-y-2 text-gray-700">
+                            <li>Створіть компонент <code class="bg-gray-100 px-1 rounded">ThemeToggle.jsx</code>.</li>
+                            <li>Усередині <code class="bg-gray-100 px-1 rounded">useEffect</code> перевірте поточне значення стану <code class="bg-gray-100 px-1 rounded">theme</code>.</li>
+                            <li>Якщо <code class="bg-gray-100 px-1 rounded">theme === 'dark'</code>, додайте до <code class="bg-gray-100 px-1 rounded">document.body.classList</code> клас <code class="bg-gray-100 px-1 rounded">'body-dark'</code> (він вже є у вашому index.css). Якщо тема світла — видаліть цей клас.</li>
+                            <li>Обов'язково додайте функцію очищення, яка видаляє клас <code class="bg-gray-100 px-1 rounded">'body-dark'</code> при розмонтуванні компонента.</li>
+                        </ol>
+                    </div>
+
+                    <div class="mb-5 bg-yellow-50 border-l-4 border-yellow-400 p-4 text-sm text-yellow-800 rounded-r-lg">
+                        <strong>💡 Підказка:</strong> В масив залежностей обов'язково треба передати стан <code class="font-mono">[theme]</code>, щоб ефект спрацьовував тільки при його зміні, а не при кожному рендері.
+                    </div>
+
+                    <div class="mb-5">
+                        <h4 class="font-bold text-gray-800 mb-2">Вихідний код компонента:</h4>
+                        <div class="bg-gray-800 rounded-lg p-4 overflow-x-auto text-sm text-gray-100">
+<pre><code>import { useState, useEffect } from 'react';
+
+export default function ThemeToggle() {
+  const [theme, setTheme] = useState('light');
+
+  useEffect(() =&gt; {
+    // ✍️ НАПИШІТЬ ВАШ КОД ТУТ
+    // 1. Умова if (theme === 'dark') { ...classList.add... } else { ... }
+    // 2. Функція очищення return () =&gt; { ...classList.remove... }
+  }, [theme]);
+
+  const toggleTheme = () =&gt; {
+    setTheme(prev =&gt; (prev === 'light' ? 'dark' : 'light'));
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Поточна тема: {theme}&lt;/h2&gt;
+      &lt;button onClick={toggleTheme}&gt;Перемкнути тему&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <h4 class="font-bold text-gray-800 mb-1">👀 Візуальний результат:</h4>
+                        <p class="text-sm text-gray-600">При кліку на кнопку весь фон сторінки браузера (а не лише область React-компонента) стає чорним, а текст білим. При повторному кліку стилі повертаються до стандартних світлих.</p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Завдання 3 -->
+            <article class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-2xl font-bold text-gray-800">Завдання 3: Логер подій вікна</h3>
+                        <span class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Базовий</span>
+                    </div>
+                    
+                    <div class="mb-5 p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+                        <p class="text-sm text-blue-900"><strong class="font-bold">Чому це важливо:</strong> Підписка на події глобального об'єкта <code class="bg-blue-100 px-1 rounded">window</code> вимагає точного розуміння, коли ефект створюється, а коли знищується. Якщо забути відписатися (<code class="bg-blue-100 px-1 rounded">removeEventListener</code>), при кожному оновленні компонента створюватиметься новий слухач, що швидко "покладе" продуктивність браузера.</p>
+                    </div>
+
+                    <div class="mb-5">
+                        <h4 class="font-bold text-gray-800 mb-2">Покрокова інструкція:</h4>
+                        <ol class="list-decimal pl-5 space-y-2 text-gray-700">
+                            <li>Створіть компонент <code class="bg-gray-100 px-1 rounded">WindowResize.jsx</code>.</li>
+                            <li>Усередині <code class="bg-gray-100 px-1 rounded">useEffect</code> створіть функцію <code class="bg-gray-100 px-1 rounded">handleResize</code>, яка оновлює стан <code class="bg-gray-100 px-1 rounded">width</code> значенням <code class="bg-gray-100 px-1 rounded">window.innerWidth</code>.</li>
+                            <li>Додайте цю функцію як слухача до події вікна: <code class="bg-gray-100 px-1 rounded">window.addEventListener('resize', handleResize)</code>.</li>
+                            <li>Обов'язково відпишіться від події у функції очищення.</li>
+                        </ol>
+                    </div>
+
+                    <div class="mb-5 bg-yellow-50 border-l-4 border-yellow-400 p-4 text-sm text-yellow-800 rounded-r-lg">
+                        <strong>💡 Підказка:</strong> Оскільки ми хочемо повісити слухач лише один раз при монтуванні компонента, масив залежностей має бути порожнім <code class="font-mono">[]</code>.
+                    </div>
+
+                    <div class="mb-5">
+                        <h4 class="font-bold text-gray-800 mb-2">Вихідний код компонента:</h4>
+                        <div class="bg-gray-800 rounded-lg p-4 overflow-x-auto text-sm text-gray-100">
+<pre><code>import { useState, useEffect } from 'react';
+
+export default function WindowResize() {
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() =&gt; {
+    // ✍️ НАПИШІТЬ ВАШ КОД ТУТ
+    // 1. const handleResize = () =&gt; setWidth(...)
+    // 2. window.addEventListener(...)
+    // 3. return () =&gt; window.removeEventListener(...)
+  }, []);
+
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Поточна ширина вікна: {width}px&lt;/h2&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <h4 class="font-bold text-gray-800 mb-1">👀 Візуальний результат:</h4>
+                        <p class="text-sm text-gray-600">На сторінці відображається текст із поточною шириною вікна у пікселях. Якщо ви зміните розмір вікна браузера вручну, цифра миттєво оновлюватиметься.</p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Додаткове Завдання -->
+            <article class="bg-indigo-50 rounded-2xl shadow-lg border border-indigo-200 overflow-hidden">
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-2xl font-bold text-indigo-900">Додаткове завдання: ColorFader (Анімація)</h3>
+                        <span class="bg-red-100 text-red-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Складний</span>
+                    </div>
+                    
+                    <div class="mb-5 p-4 bg-white rounded-lg border-l-4 border-indigo-500 shadow-sm">
+                        <p class="text-sm text-gray-700"><strong class="font-bold">Чому це важливо:</strong> Це завдання інтегрує роботу з масивами, хуком <code class="bg-gray-100 px-1 rounded">useState</code>, керованими інтервалами та CSS-переходами (transitions). Це реальний патерн для створення слайдерів, каруселей або плавних фонових анімацій.</p>
+                    </div>
+
+                    <div class="mb-5">
+                        <h4 class="font-bold text-indigo-900 mb-2">Покрокова інструкція:</h4>
+                        <ol class="list-decimal pl-5 space-y-2 text-indigo-800">
+                            <li>Створіть компонент <code class="bg-white px-1 rounded text-indigo-600 font-mono">ColorFader.jsx</code>.</li>
+                            <li>Вам знадобиться два стани: <code class="bg-white px-1 rounded text-indigo-600 font-mono">isRunning</code> (булевий, за замовчуванням <code class="bg-white px-1 rounded font-mono">true</code>) та <code class="bg-white px-1 rounded text-indigo-600 font-mono">colorIndex</code> (число, починаємо з 0).</li>
+                            <li>Винесіть константу <code class="bg-white px-1 rounded text-indigo-600 font-mono">const COLORS = ['red', 'blue']</code> ЗА МЕЖІ компонента (щоб не перестворювати масив на кожен рендер).</li>
+                            <li>Усередині <code class="bg-white px-1 rounded text-indigo-600 font-mono">useEffect</code> перевіряйте <code class="bg-white px-1 rounded text-indigo-600 font-mono">if (!isRunning) return;</code>. Якщо анімація запущена, створюйте інтервал, який кожні 2 секунди збільшує <code class="bg-white px-1 rounded text-indigo-600 font-mono">colorIndex</code>.</li>
+                            <li>Для стилізації блоку з кольором використайте inline-стиль <code class="bg-white px-1 rounded text-indigo-600 font-mono">style={{ backgroundColor: COLORS[colorIndex] }}</code> і додайте CSS-клас з <code class="bg-white px-1 rounded text-indigo-600 font-mono">transition: background-color 1s ease</code>.</li>
+                        </ol>
+                    </div>
+
+                    <div class="mb-5 bg-white border-l-4 border-yellow-400 p-4 text-sm text-yellow-800 rounded-r-lg shadow-sm">
+                        <strong>💡 Підказка:</strong> Щоб індекс не вийшов за межі масиву, використовуйте оператор остачі від ділення (modulo): <br>
+                        <code class="font-mono mt-1 block bg-gray-100 p-1 rounded text-gray-800">setColorIndex(prev =&gt; (prev + 1) % COLORS.length)</code>
+                    </div>
+
+                    <div class="mb-5">
+                        <h4 class="font-bold text-indigo-900 mb-2">Вихідний CSS (можна додати у App.css):</h4>
+                        <div class="bg-gray-800 rounded-lg p-4 overflow-x-auto text-sm text-gray-100 mb-4">
+<pre><code>.color-box {
+  width: 200px;
+  height: 200px;
+  transition: background-color 1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  border-radius: 12px;
+  margin: 20px auto;
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-lg border border-indigo-100 shadow-sm">
+                        <h4 class="font-bold text-indigo-900 mb-1">👀 Візуальний результат:</h4>
+                        <p class="text-sm text-gray-700">Великий квадрат по центру екрана, який кожні 2 секунди плавно (з переходом в 1 секунду) змінює колір з червоного на синій і навпаки. Під ним кнопка, яка дозволяє зупинити цей процес (заморозити поточний колір) і відновити його.</p>
+                    </div>
+                </div>
+            </article>
+
+        </section>
+    </main>
+
+</body>
+</html>

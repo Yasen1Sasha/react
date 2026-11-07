@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Практичне заняття: Робота з формами в React</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom scrollbar for code blocks */
+        pre::-webkit-scrollbar {
+            height: 8px;
+        }
+        pre::-webkit-scrollbar-track {
+            background: #1f2937; 
+            border-radius: 8px;
+        }
+        pre::-webkit-scrollbar-thumb {
+            background: #4b5563; 
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans antialiased p-6 md:p-12">
+    <div class="max-w-5xl mx-auto space-y-10">
+
+        <!-- Header -->
+        <header class="bg-white rounded-2xl shadow-sm p-8 border-l-4 border-blue-500">
+            <h1 class="text-3xl font-extrabold text-gray-900 mb-2">Практичне заняття: Робота з формами React</h1>
+            <ul class="list-disc list-inside text-gray-600 space-y-1 mt-4">
+                <li>Контрольовані компоненти</li>
+                <li>Події форми, обробка подій (onChange, onSubmit)</li>
+                <li>Інтерактивні форми (умовний рендеринг)</li>
+                <li>Валідація введених даних</li>
+                <li>Різні типи даних (select, checkbox, radio)</li>
+            </ul>
+        </header>
+
+        <!-- Section: Вихідні дані та Приклади -->
+        <section class="bg-white rounded-2xl shadow-sm p-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                <svg class="w-6 h-6 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Вихідні дані та Приклади коду
+            </h2>
+            <p class="text-gray-600 mb-4">Цей код демонструє базові принципи роботи з формами в React. Вивчіть його перед виконанням завдань.</p>
+            
+            <div class="space-y-4">
+                <details class="group bg-gray-50 rounded-lg border border-gray-200">
+                    <summary class="cursor-pointer p-4 font-semibold text-gray-700 hover:text-blue-600 flex justify-between items-center">
+                        Приклад 1: Базовий контрольований Input
+                        <span class="transition group-open:rotate-180">▼</span>
+                    </summary>
+                    <div class="p-4 border-t border-gray-200 bg-gray-900 rounded-b-lg overflow-x-auto">
+<pre><code class="text-sm text-green-400">import { useState, useId } from 'react';
+
+function NameForm() {
+  const [name, setName] = useState('');
+  const id = useId();
+
+  const handleChange = (event) => {
+    setName(event.target.value);
+  };
+
+  return (
+    &lt;form onSubmit={(e) =&gt; e.preventDefault()}&gt;
+      &lt;label htmlFor={`${id}-name`}&gt;Ім'я:&lt;/label&gt;
+      &lt;input id={`${id}-name`} type="text" value={name} onChange={handleChange} /&gt;
+      {name && &lt;p&gt;Ви ввели: {name}&lt;/p&gt;}
+    &lt;/form&gt;
+  );
+}
+export default NameForm;
+</code></pre>
+                    </div>
+                </details>
+
+                <details class="group bg-gray-50 rounded-lg border border-gray-200">
+                    <summary class="cursor-pointer p-4 font-semibold text-gray-700 hover:text-blue-600 flex justify-between items-center">
+                        Приклад 2: Мульти-стейт форми (один об'єкт для всіх полів)
+                        <span class="transition group-open:rotate-180">▼</span>
+                    </summary>
+                    <div class="p-4 border-t border-gray-200 bg-gray-900 rounded-b-lg overflow-x-auto">
+<pre><code class="text-sm text-green-400">import { useState } from 'react';
+
+function LoginForm() {
+  const [formData, setFormData] = useState({ email: '', password: '' });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log('Дані:', formData);
+  };
+
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;input type="email" name="email" value={formData.email} onChange={handleChange} /&gt;
+      &lt;input type="password" name="password" value={formData.password} onChange={handleChange} /&gt;
+      &lt;button type="submit"&gt;Увійти&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+</code></pre>
+                    </div>
+                </details>
+
+                <details class="group bg-gray-50 rounded-lg border border-gray-200">
+                    <summary class="cursor-pointer p-4 font-semibold text-gray-700 hover:text-blue-600 flex justify-between items-center">
+                        Базовий CSS (скопіюйте у свій App.css)
+                        <span class="transition group-open:rotate-180">▼</span>
+                    </summary>
+                    <div class="p-4 border-t border-gray-200 bg-gray-900 rounded-b-lg overflow-x-auto">
+<pre><code class="text-sm text-blue-300">.form-wrapper {
+  margin: 15px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  max-width: 350px;
+}
+form { display: flex; flex-direction: column; gap: 20px; }
+input, select { padding: 12px; border: 1px solid #ccc; border-radius: 6px; width: 100%; }
+button[type="submit"] { padding: 12px; background-color: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer; }
+.error-text { color: #d9534f; font-size: 0.85rem; margin-top: 4px; }
+</code></pre>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <!-- Section: Завдання -->
+        <section class="space-y-8">
+            <h2 class="text-3xl font-extrabold text-gray-900 border-b-2 border-gray-300 pb-2">Практичні завдання</h2>
+
+            <!-- Task 1 -->
+            <div class="bg-white rounded-2xl shadow-sm p-8 border-t-4 border-indigo-500">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-900">Завдання 1: Збір даних користувача</h3>
+                    <span class="bg-indigo-100 text-indigo-800 text-xs font-semibold px-3 py-1 rounded-full">Базовий рівень</span>
+                </div>
+                
+                <div class="space-y-4 text-gray-700">
+                    <p><strong class="text-indigo-600">Чому це важливо:</strong> Це основа роботи з формами в React. Ви навчитеся зберігати дані кількох полів введення в єдиному об'єкті стану, що робить код чистим (DRY) і масштабованим.</p>
+                    
+                    <h4 class="font-bold mt-4">Кроки виконання:</h4>
+                    <ol class="list-decimal list-inside space-y-2 ml-2">
+                        <li>Створіть компонент <code class="bg-gray-100 px-1 rounded text-red-500">SimpleForm</code>.</li>
+                        <li>Оголосіть стан <code class="bg-gray-100 px-1 rounded text-red-500">formData</code>, який є об'єктом з полями <code>name</code> (рядок) та <code>age</code> (рядок).</li>
+                        <li>Створіть універсальну функцію <code class="bg-gray-100 px-1 rounded text-red-500">handleChange</code>, яка буде оновлювати стан на основі атрибуту <code>name</code> поля вводу.</li>
+                        <li>Створіть функцію <code class="bg-gray-100 px-1 rounded text-red-500">handleSubmit</code>, яка скасовує стандартну поведінку браузера та виводить дані в консоль.</li>
+                        <li>Додайте два інпути (type="text" та type="number") і кнопку відправки у форму.</li>
+                    </ol>
+
+                    <details class="mt-4 bg-yellow-50 rounded-lg p-3">
+                        <summary class="cursor-pointer font-semibold text-yellow-800">Підказка до коду (Вихідний шаблон)</summary>
+<pre><code class="text-sm bg-gray-900 text-green-400 p-3 rounded mt-2 block">const handleChange = (e) => {
+  const { name, value } = e.target;
+  setFormData(prev => ({ ...prev, [name]: value }));
+};
+// Не забудьте додати name="age" до інпуту віку!
+</code></pre>
+                    </details>
+
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mt-4">
+                        <strong class="text-gray-900">Візуальний результат:</strong> Картка з двома полями ("Ім'я" та "Вік") і кнопкою "Надіслати". При введенні даних і натисканні кнопки, сторінка не перезавантажується, а в консолі розробника з'являється об'єкт з введеними даними.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task 2 -->
+            <div class="bg-white rounded-2xl shadow-sm p-8 border-t-4 border-blue-500">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-900">Завдання 2: Базова валідація при відправці</h3>
+                    <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Середній рівень</span>
+                </div>
+                
+                <div class="space-y-4 text-gray-700">
+                    <p><strong class="text-blue-600">Чому це важливо:</strong> Ніколи не можна довіряти даним від користувача. Валідація на стороні клієнта покращує UX, миттєво повідомляючи користувачеві про помилки без очікування відповіді від сервера.</p>
+                    
+                    <h4 class="font-bold mt-4">Кроки виконання:</h4>
+                    <ol class="list-decimal list-inside space-y-2 ml-2">
+                        <li>Створіть компонент <code class="bg-gray-100 px-1 rounded text-red-500">ValidationForm</code>.</li>
+                        <li>Додайте стан для даних <code class="bg-gray-100 px-1 rounded text-red-500">formData</code> (полі <code>email</code> та <code>password</code>).</li>
+                        <li>Додайте стан для помилок <code class="bg-gray-100 px-1 rounded text-red-500">errors</code> (з такою ж структурою об'єкта, початкові значення - порожні рядки).</li>
+                        <li>У функції <code>handleSubmit</code> створіть локальний об'єкт <code>newErrors</code>. Перевірте: якщо email не містить символ "@", запишіть помилку "Email має містити @". Якщо пароль коротший за 6 символів — запишіть "Пароль має бути ≥ 6 символів".</li>
+                        <li>Оновіть стан помилок. Якщо помилок немає, виведіть дані в консоль.</li>
+                        <li>Під кожним інпутом додайте умовний рендеринг: показувати текст помилки, якщо вона існує у стані <code>errors</code>.</li>
+                    </ol>
+
+                    <details class="mt-4 bg-yellow-50 rounded-lg p-3">
+                        <summary class="cursor-pointer font-semibold text-yellow-800">Підказка до умовного рендерингу</summary>
+<pre><code class="text-sm bg-gray-900 text-green-400 p-3 rounded mt-2 block">{/* Відображення помилки під інпутом */}
+{errors.email && &lt;p className="error-text"&gt;{errors.email}&lt;/p&gt;}
+</code></pre>
+                    </details>
+
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mt-4">
+                        <strong class="text-gray-900">Візуальний результат:</strong> Форма авторизації. Якщо натиснути "Надіслати" з порожніми полями або неправильним форматом, форма не відправляється, а під відповідними полями з'являється червоний текст з поясненням помилки.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task 3 -->
+            <div class="bg-white rounded-2xl shadow-sm p-8 border-t-4 border-purple-500">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-900">Завдання 3: Інтерактивна форма замовлення</h3>
+                    <span class="bg-purple-100 text-purple-800 text-xs font-semibold px-3 py-1 rounded-full">Просунутий рівень</span>
+                </div>
+                
+                <div class="space-y-4 text-gray-700">
+                    <p><strong class="text-purple-600">Чому це важливо:</strong> Складні форми часто вимагають умовного відображення полів (наприклад, запитати номер квартири лише якщо обрана доставка кур'єром). Також ви навчитеся обробляти різні типи інпутів: радіокнопки, селекти та чекбокси.</p>
+                    
+                    <h4 class="font-bold mt-4">Кроки виконання:</h4>
+                    <ol class="list-decimal list-inside space-y-2 ml-2">
+                        <li>Створіть компонент <code class="bg-gray-100 px-1 rounded text-red-500">OrderForm</code>.</li>
+                        <li>Стан форми повинен включати: <code>name</code> (рядок), <code>foodType</code> (рядок, за замовчуванням 'pizza'), <code>deliveryMethod</code> (рядок, 'pickup'), <code>extraCheese</code> (булеве значення, false), <code>sauce</code> (рядок, 'tomato').</li>
+                        <li>Модифікуйте <code>handleChange</code>: для чекбоксів значення лежить в <code>e.target.checked</code>, для інших — в <code>e.target.value</code>. Використайте умову типу <code>type === 'checkbox'</code>.</li>
+                        <li>Додайте <code>&lt;select&gt;</code> для вибору їжі (Піца, Суші, Бургер).</li>
+                        <li>Додайте два <code>&lt;input type="radio"&gt;</code> для способу доставки (Самовивіз, Кур'єр). У них має бути однаковий атрибут <code>name</code>.</li>
+                        <li>Додайте чекбокс "Додатковий сир".</li>
+                        <li><strong>Інтерактивність:</strong> Використовуючи умовний рендеринг (<code>{formData.foodType === 'pizza' && (...)}</code>), показуйте селект вибору соусу ТІЛЬКИ тоді, коли користувач обрав Піцу.</li>
+                    </ol>
+
+                    <details class="mt-4 bg-yellow-50 rounded-lg p-3">
+                        <summary class="cursor-pointer font-semibold text-yellow-800">Підказка до обробника onChange</summary>
+<pre><code class="text-sm bg-gray-900 text-green-400 p-3 rounded mt-2 block">const handleChange = (e) => {
+  const { name, value, type, checked } = e.target;
+  setFormData(prev => ({
+    ...prev,
+    [name]: type === 'checkbox' ? checked : value,
+  }));
+};
+</code></pre>
+                    </details>
+
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mt-4">
+                        <strong class="text-gray-900">Візуальний результат:</strong> Динамічна форма. Коли у випадному списку обрано "Суші" або "Бургер", поле з вибором соусу зникає. Радіокнопки перемикаються коректно.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Додаткові завдання -->
+        <section class="space-y-8 mt-12">
+            <h2 class="text-3xl font-extrabold text-gray-900 border-b-2 border-gray-300 pb-2">Додаткові завдання</h2>
+
+            <!-- Extra Task 1 -->
+            <div class="bg-white rounded-2xl shadow-sm p-8 border-t-4 border-green-500">
+                <h3 class="text-xl font-bold text-gray-900 mb-4">Додаткове 1: Todo-лист (Форма + Масив)</h3>
+                
+                <div class="space-y-4 text-gray-700">
+                    <p><strong class="text-green-600">Чому це важливо:</strong> Форми часто використовуються для створення нових записів, які потім рендеряться у вигляді списку. Це навчить вас не мутувати масиви напряму, а створювати нові списки за допомогою spread-оператора.</p>
+                    
+                    <h4 class="font-bold mt-4">Кроки виконання:</h4>
+                    <ol class="list-decimal list-inside space-y-2 ml-2">
+                        <li>Створіть компонент <code class="bg-gray-100 px-1 rounded text-red-500">TodoList</code>.</li>
+                        <li>Окрім стану для тексту завдання та пріоритету, створіть стан для списку: <code>const [tasks, setTasks] = useState([])</code>.</li>
+                        <li>При сабміті форми створіть новий об'єкт завдання: <code>{ id: crypto.randomUUID(), text: taskText, priority: taskPriority }</code>.</li>
+                        <li>Додайте це завдання до масиву <code class="bg-gray-100 px-1 rounded text-red-500">tasks</code> та очистіть поле вводу.</li>
+                        <li>Виведіть список завдань під формою за допомогою <code>tasks.map(...)</code>, використовуючи унікальний <code>id</code> як <code>key</code>.</li>
+                        <li>Додайте кнопку "Очистити список", яка встановлюватиме стан масиву в порожній <code>[]</code>.</li>
+                    </ol>
+
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mt-4">
+                        <strong class="text-gray-900">Візуальний результат:</strong> Форма додавання завдання з полем тексту та вибором пріоритету. Нижче відображається маркований список доданих завдань. При додаванні форма миттєво очищається.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Extra Task 2 -->
+            <div class="bg-white rounded-2xl shadow-sm p-8 border-t-4 border-teal-500">
+                <h3 class="text-xl font-bold text-gray-900 mb-4">Додаткове 2: Реєстрація з "живою" валідацією</h3>
+                
+                <div class="space-y-4 text-gray-700">
+                    <p><strong class="text-teal-600">Чому це важливо:</strong> Реєстраційні форми у реальних проектах містять перевірки регулярними виразами (Regex) та порівняння паролів. А найкращий UX — це коли помилка зникає одразу, як тільки користувач почав вводити правильні дані.</p>
+                    
+                    <h4 class="font-bold mt-4">Кроки виконання:</h4>
+                    <ol class="list-decimal list-inside space-y-2 ml-2">
+                        <li>Створіть компонент <code class="bg-gray-100 px-1 rounded text-red-500">RegistrationForm</code> (поля: ім'я, email, password, confirmPassword).</li>
+                        <li>Винесіть логіку валідації в окрему функцію <code class="bg-gray-100 px-1 rounded text-red-500">validate()</code>, яка повертає об'єкт з помилками.</li>
+                        <li>Для email використайте регулярний вираз: <code>/^[^\s@]+@[^\s@]+\.[^\s@]+$/</code>.</li>
+                        <li>Перевірте, щоб <code>password</code> збігався з <code>confirmPassword</code>.</li>
+                        <li>Модифікуйте <code>handleChange</code>: коли користувач вводить дані в поле, автоматично видаляйте повідомлення про помилку для ЦЬОГО поля з об'єкта <code>errors</code>.</li>
+                    </ol>
+
+                    <details class="mt-4 bg-yellow-50 rounded-lg p-3">
+                        <summary class="cursor-pointer font-semibold text-yellow-800">Підказка до "живого" очищення помилок</summary>
+<pre><code class="text-sm bg-gray-900 text-green-400 p-3 rounded mt-2 block">const handleChange = (e) => {
+  const { name, value } = e.target;
+  setFormData(prev => ({ ...prev, [name]: value }));
+  
+  // Якщо для цього поля була помилка - прибираємо її
+  if (errors[name]) {
+    setErrors(prev => ({ ...prev, [name]: undefined }));
+  }
+};
+</code></pre>
+                    </details>
+
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mt-4">
+                        <strong class="text-gray-900">Візуальний результат:</strong> Велика форма реєстрації. Якщо відправити з помилками — вони з'являться червоним текстом. Але як тільки користувач клікне в поле і почне виправляти дані, текст помилки під цим полем одразу зникає.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</body>
+</html>
